@@ -1,0 +1,12 @@
+<resources>
+    <style name="Theme.LibraryVisitors" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/library_navy</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/library_blue</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:statusBarColor">@color/library_navy</item>
+        <item name="android:navigationBarColor">@color/library_background</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowBackground">@color/library_background</item>
+    </style>
+</resources>

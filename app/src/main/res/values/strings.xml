@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Library Visitors</string>
+    <string name="login_title">Public Library</string>
+    <string name="login_subtitle">Sign in to manage visitor records</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="create_account">Create account</string>
+    <string name="visitor_form_title">Visitor application</string>
+    <string name="visitor_name">Full name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="address">Address</string>
+    <string name="save_visitor">Save visitor</string>
+    <string name="view_visitors">View visitors</string>
+    <string name="visitor_list_title">Visitor records</string>
+    <string name="seed_sample_data">Seed sample data</string>
+    <string name="sign_out">Sign out</string>
+    <string name="no_visitors">No visitor records yet.</string>
+</resources>
