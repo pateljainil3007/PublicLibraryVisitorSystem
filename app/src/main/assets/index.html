@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Library Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="header-logo">📚</div>
+            <div>
+                <h1 class="header-title">Public Library System</h1>
+                <p class="header-subtitle" id="engineStatusText">C Native Engine (NDK) - Operational</p>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="btnHeaderCheckIn">+ Check In Visitor</button>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+
+        <!-- Tab Content Views -->
+        <main class="content-area">
+
+            <!-- 1. DASHBOARD VIEW -->
+            <section id="viewDashboard" class="tab-view active">
+                <div class="view-header">
+                    <h2>Library Dashboard</h2>
+                    <span class="date-badge" id="currentDateBadge">Today</span>
+                </div>
+
+                <!-- Stats Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Inside Library</span>
+                        <span class="stat-value text-blue" id="statVisitorsInside">0</span>
+                        <span class="stat-subtext" id="statVisitorsToday">0 checked in today</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Active Loans</span>
+                        <span class="stat-value text-teal" id="statActiveLoans">0</span>
+                        <span class="stat-subtext">Books currently out</span>
+                    </div>
+
+                    <div class="stat-card stat-alert">
+                        <span class="stat-label text-red">Overdue Books</span>
+                        <span class="stat-value text-red" id="statOverdueLoans">0</span>
+                        <span class="stat-subtext text-red">Action required</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Catalog Inventory</span>
+                        <span class="stat-value text-navy" id="statTotalBooks">0</span>
+                        <span class="stat-subtext" id="statAvailableCopies">0 available</span>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Bar -->
+                <div class="section-block">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-tonal" id="dashCheckInBtn">👤 Check In Visitor</button>
+                        <button class="btn btn-outline" id="dashAddBookBtn">📚 Add New Book</button>
+                        <button class="btn btn-primary" id="dashIssueBookBtn">📖 Issue Book</button>
+                    </div>
+                </div>
+
+                <!-- Overdue Loans Alert Section -->
+                <div class="section-block">
+                    <h3 class="text-red">⚠️ Overdue Loans Alert</h3>
+                    <div id="overdueEmptyMsg" class="alert alert-success">
+                        ✅ All borrowed books are returned on time! No overdue items.
+                    </div>
+                    <div id="overdueList" class="card-list"></div>
+                </div>
+            </section>
+
+            <!-- 2. VISITORS VIEW -->
+            <section id="viewVisitors" class="tab-view">
+                <div class="view-header">
+                    <h2>Visitor Records</h2>
+                    <button class="btn btn-primary" id="btnNewVisitor">+ Check In</button>
+                </div>
+
+                <div class="search-bar-container">
+                    <input type="text" id="searchVisitors" class="input-search" placeholder="Search visitor by name, phone, email, purpose...">
+                    <div class="filter-chips">
+                        <button class="chip active" data-filter="all">All Visitors</button>
+                        <button class="chip" data-filter="inside">Currently Inside</button>
+                        <button class="chip" data-filter="out">Checked Out</button>
+                        <button class="chip" data-filter="borrowing">Borrowing Books</button>
+                    </div>
+                </div>
+
+                <div id="visitorsList" class="card-list"></div>
+                <div id="visitorsEmptyState" class="empty-state" style="display: none;">No visitors matching your search.</div>
+            </section>
+
+            <!-- 3. BOOKS VIEW -->
+            <section id="viewBooks" class="tab-view">
+                <div class="view-header">
+                    <h2>Book Catalog Inventory</h2>
+                    <button class="btn btn-primary" id="btnNewBook">+ Add Book</button>
+                </div>
+
+                <div class="search-bar-container">
+                    <input type="text" id="searchBooks" class="input-search" placeholder="Search book by title, author, ISBN...">
+                    <div class="filter-chips">
+                        <button class="chip active" data-category="all">All Categories</button>
+                        <button class="chip" data-category="Fiction">Fiction</button>
+                        <button class="chip" data-category="Technology">Technology</button>
+                        <button class="chip" data-category="Classics">Classics</button>
+                        <button class="chip" data-category="available">Available Only</button>
+                    </div>
+                </div>
+
+                <div id="booksList" class="card-list"></div>
+                <div id="booksEmptyState" class="empty-state" style="display: none;">No books found in catalog.</div>
+            </section>
+
+            <!-- 4. BORROWINGS VIEW -->
+            <section id="viewBorrowings" class="tab-view">
+                <div class="view-header">
+                    <h2>Book Loans & Returns</h2>
+                    <button class="btn btn-primary" id="btnNewIssue">+ Issue Book</button>
+                </div>
+
+                <div class="search-bar-container">
+                    <input type="text" id="searchBorrowings" class="input-search" placeholder="Search by borrower, book title, author...">
+                    <div class="filter-chips">
+                        <button class="chip active" data-status="all">All Loans</button>
+                        <button class="chip" data-status="ACTIVE">Active Loans</button>
+                        <button class="chip" data-status="OVERDUE">Overdue Items</button>
+                        <button class="chip" data-status="RETURNED">Returned</button>
+                    </div>
+                </div>
+
+                <div id="borrowingsList" class="card-list"></div>
+                <div id="borrowingsEmptyState" class="empty-state" style="display: none;">No loan records found.</div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-tab="viewDashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Dashboard</span>
+            </button>
+            <button class="nav-item" data-tab="viewVisitors">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Visitors</span>
+            </button>
+            <button class="nav-item" data-tab="viewBooks">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Books</span>
+            </button>
+            <button class="nav-item" data-tab="viewBorrowings">
+                <span class="nav-icon">📖</span>
+                <span class="nav-label">Loans</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- MODAL 1: CHECK IN VISITOR -->
+    <div class="modal-overlay" id="modalVisitor">
+        <div class="modal-box">
+            <h3>Check In Visitor</h3>
+            <form id="formVisitor">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="vName" required placeholder="e.g. Aarav Patel">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="vPhone" required placeholder="e.g. +1 555 010 1001">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="vDob" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="vEmail" required placeholder="e.g. aarav@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Residential Address</label>
+                    <input type="text" id="vAddress" required placeholder="e.g. 12 Maple Street">
+                </div>
+                <div class="form-group">
+                    <label>Purpose of Visit</label>
+                    <input type="text" id="vPurpose" required placeholder="e.g. Reading, Book Borrowing, Research">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-text modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Check In Visitor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ADD NEW BOOK -->
+    <div class="modal-overlay" id="modalBook">
+        <div class="modal-box">
+            <h3>Add New Book to Inventory</h3>
+            <form id="formBook">
+                <div class="form-group">
+                    <label>Book Title</label>
+                    <input type="text" id="bTitle" required placeholder="e.g. To Kill a Mockingbird">
+                </div>
+                <div class="form-group">
+                    <label>Author Name</label>
+                    <input type="text" id="bAuthor" required placeholder="e.g. Harper Lee">
+                </div>
+                <div class="form-group">
+                    <label>ISBN Number</label>
+                    <input type="text" id="bIsbn" placeholder="e.g. 978-0446310789">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="bCategory">
+                        <option value="Fiction">Fiction</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Classics">Classics</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="History">History</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Shelf Location</label>
+                        <input type="text" id="bShelf" placeholder="e.g. Shelf A-04">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Copies</label>
+                        <input type="number" id="bCopies" value="1" min="1" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-text modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: ISSUE BOOK TO VISITOR -->
+    <div class="modal-overlay" id="modalIssue">
+        <div class="modal-box">
+            <h3>Issue Book to Visitor</h3>
+            <form id="formIssue">
+                <div class="form-group">
+                    <label>Select Visitor</label>
+                    <select id="issueVisitorSelect" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Select Available Book</label>
+                    <select id="issueBookSelect" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Loan Duration</label>
+                    <select id="issueDuration">
+                        <option value="7">7 Days</option>
+                        <option value="14" selected>14 Days</option>
+                        <option value="21">21 Days</option>
+                        <option value="30">30 Days</option>
+                    </select>
+                </div>
+                <div class="alert alert-info" id="dueDatePreview">
+                    Due Date: Preview
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-text modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm Issue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: VISITOR HISTORY -->
+    <div class="modal-overlay" id="modalHistory">
+        <div class="modal-box">
+            <h3 id="historyTitle">Borrowing History</h3>
+            <p id="historySubtitle" class="text-muted"></p>
+            <div id="historyList" class="card-list" style="max-height: 300px; overflow-y: auto;"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-text modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

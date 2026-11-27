@@ -8,15 +8,6 @@
         android:theme="@style/Theme.LibraryVisitors">
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".VisitorListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".VisitorFormActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
