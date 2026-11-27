@@ -1,10 +1,11 @@
 # GitHub Linguist Configuration
-# Mark assets folder files as primary source code (not vendored or documentation)
+# Mark app sources as detectable and explicitly classify web and native assets.
 
 app/src/main/assets/** linguist-vendored=false
 app/src/main/assets/** linguist-documentation=false
 
-app/src/main/assets/*.js linguist-language=JavaScript
-app/src/main/assets/*.html linguist-language=HTML
-app/src/main/assets/*.css linguist-language=CSS
-app/src/main/cpp/*.c linguist-language=C
+app/src/main/java/**/*.java linguist-detectable=true linguist-language=Java
+app/src/main/assets/*.js linguist-detectable=true linguist-language=JavaScript
+app/src/main/assets/*.html linguist-detectable=true linguist-language=HTML
+app/src/main/assets/*.css linguist-detectable=true linguist-language=CSS
+app/src/main/cpp/*.c linguist-detectable=true linguist-language=C
