@@ -1,0 +1,10 @@
+# GitHub Linguist Configuration
+# Mark assets folder files as primary source code (not vendored or documentation)
+
+app/src/main/assets/** linguist-vendored=false
+app/src/main/assets/** linguist-documentation=false
+
+app/src/main/assets/*.js linguist-language=JavaScript
+app/src/main/assets/*.html linguist-language=HTML
+app/src/main/assets/*.css linguist-language=CSS
+app/src/main/cpp/*.c linguist-language=C
