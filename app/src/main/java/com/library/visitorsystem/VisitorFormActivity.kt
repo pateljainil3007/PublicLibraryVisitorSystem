@@ -33,7 +33,8 @@ class VisitorFormActivity : AppCompatActivity() {
         binding.dobInput.setOnClickListener { showDatePicker() }
         binding.saveVisitorButton.setOnClickListener { saveVisitor() }
         binding.viewVisitorsButton.setOnClickListener {
-            startActivity(Intent(this, VisitorListActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
@@ -42,17 +43,13 @@ class VisitorFormActivity : AppCompatActivity() {
         DatePickerDialog(
             this,
             { _, year, month, day ->
-                val selected = Calendar.getInstance().apply {
-                    set(year, month, day)
-                }
+                val selected = Calendar.getInstance().apply { set(year, month, day) }
                 binding.dobInput.setText(dateFormat.format(selected.time))
             },
             today.get(Calendar.YEAR),
             today.get(Calendar.MONTH),
             today.get(Calendar.DAY_OF_MONTH)
-        ).apply {
-            datePicker.maxDate = today.timeInMillis
-        }.show()
+        ).apply { datePicker.maxDate = today.timeInMillis }.show()
     }
 
     private fun saveVisitor() {
@@ -61,9 +58,10 @@ class VisitorFormActivity : AppCompatActivity() {
         val dob = binding.dobInput.text?.toString()?.trim().orEmpty()
         val email = binding.visitorEmailInput.text?.toString()?.trim().orEmpty()
         val address = binding.addressInput.text?.toString()?.trim().orEmpty()
+        val purpose = binding.purposeInput.text?.toString()?.trim().orEmpty()
 
-        if (name.isBlank()) {
-            binding.nameInput.error = "Enter the visitor's name"
+        if (name.length < 2) {
+            binding.nameInput.error = "Enter the visitor's full name"
             return
         }
         if (phone.count(Char::isDigit) < 7) {
@@ -78,8 +76,12 @@ class VisitorFormActivity : AppCompatActivity() {
             binding.visitorEmailInput.error = "Enter a valid email address"
             return
         }
-        if (address.isBlank()) {
-            binding.addressInput.error = "Enter an address"
+        if (address.length < 5) {
+            binding.addressInput.error = "Enter a complete address"
+            return
+        }
+        if (purpose.length < 3) {
+            binding.purposeInput.error = "Enter the visit purpose"
             return
         }
 
@@ -90,26 +92,24 @@ class VisitorFormActivity : AppCompatActivity() {
             "dob" to dob,
             "email" to email,
             "address" to address,
+            "purpose" to purpose,
+            "status" to "Checked in",
+            "checkedInAt" to System.currentTimeMillis(),
+            "checkedOutAt" to 0L,
+            "createdBy" to FirebaseAuth.getInstance().currentUser?.uid,
             "createdAt" to FieldValue.serverTimestamp()
         )
+
         firestore.collection("visitors")
             .add(record)
             .addOnSuccessListener {
                 binding.saveVisitorButton.isEnabled = true
-                Toast.makeText(this, "Visitor saved", Toast.LENGTH_SHORT).show()
-                binding.nameInput.text?.clear()
-                binding.phoneInput.text?.clear()
-                binding.dobInput.text?.clear()
-                binding.visitorEmailInput.text?.clear()
-                binding.addressInput.text?.clear()
+                Toast.makeText(this, "$name checked in successfully", Toast.LENGTH_SHORT).show()
+                finish()
             }
             .addOnFailureListener { error ->
                 binding.saveVisitorButton.isEnabled = true
-                Toast.makeText(
-                    this,
-                    "Could not save visitor: ${error.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, "Could not save visitor: ${error.localizedMessage}", Toast.LENGTH_LONG).show()
             }
     }
 }

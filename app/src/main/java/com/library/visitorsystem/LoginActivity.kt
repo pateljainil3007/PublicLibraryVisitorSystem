@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (auth.currentUser != null) {
-            openVisitorForm()
+            openMainActivity()
             return
         }
 
@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
         request.addOnCompleteListener { task ->
             binding.submitButton.isEnabled = true
             if (task.isSuccessful) {
-                openVisitorForm()
+                openMainActivity()
             } else {
                 Toast.makeText(
                     this,
@@ -68,8 +68,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun openVisitorForm() {
-        startActivity(Intent(this, VisitorFormActivity::class.java))
+    private fun openMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 }

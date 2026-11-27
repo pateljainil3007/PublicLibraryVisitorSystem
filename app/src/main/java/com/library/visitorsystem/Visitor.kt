@@ -6,5 +6,10 @@ data class Visitor(
     val phone: String = "",
     val dob: String = "",
     val email: String = "",
-    val address: String = ""
+    val address: String = "",
+    val purpose: String = "",
+    val checkedInAt: Long = 0L,
+    val checkedOutAt: Long = 0L,
+    val status: String = "Checked in",
+    val activeBorrowCount: Int = 0
 )

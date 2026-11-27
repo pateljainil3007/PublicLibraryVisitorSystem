@@ -7,6 +7,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryVisitors">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".VisitorListActivity"
             android:exported="false" />
         <activity

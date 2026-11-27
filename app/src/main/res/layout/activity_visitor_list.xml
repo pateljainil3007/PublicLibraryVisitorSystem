@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/visitor_list_title"
-        android:textColor="@color/library_ink"
-        android:textSize="28sp"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:gravity="center_vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/seedButton"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/seed_sample_data" />
+            android:text="Visitor records"
+            android:textColor="@color/library_ink"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signOutButton"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_out" />
+            android:text="Sign out" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/reportText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Loading report…"
+        android:textColor="@color/library_muted" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Search name, email, phone or purpose"
+        app:boxBackgroundMode="outline"
+        app:startIconDrawable="@android:drawable/ic_menu_search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/emptyState"
@@ -42,7 +57,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="28dp"
-        android:text="@string/no_visitors"
+        android:text="No matching visitor records."
         android:textColor="@color/library_muted"
         android:visibility="gone" />
 
@@ -52,6 +67,12 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp" />
+        android:paddingTop="10dp"
+        android:paddingBottom="84dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/newVisitorButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Check in new visitor" />
 </LinearLayout>

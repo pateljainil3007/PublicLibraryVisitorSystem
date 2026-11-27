@@ -1,20 +1,40 @@
 {
   "project_info": {
-    "project_number": "000000000000",
-    "project_id": "replace-with-your-firebase-project",
-    "storage_bucket": "replace-with-your-firebase-project.firebasestorage.app"
+    "project_number": "1035378189407",
+    "project_id": "libraryvisitors-bc6d8",
+    "storage_bucket": "libraryvisitors-bc6d8.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
+        "mobilesdk_app_id": "1:1035378189407:android:ca0a365ddaeaa6dfaee7ea",
+        "android_client_info": {
+          "package_name": "com.example.libraryvisitors"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkJxbreCUOma_mStxdd_IaAEjEZ3b6C2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035378189407:android:8c5f8c2eeae3cd4aaee7ea",
         "android_client_info": {
           "package_name": "com.library.visitorsystem"
         }
       },
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "REPLACE_WITH_YOUR_FIREBASE_API_KEY"
+          "current_key": "AIzaSyAkJxbreCUOma_mStxdd_IaAEjEZ3b6C2I"
         }
       ],
       "services": {
