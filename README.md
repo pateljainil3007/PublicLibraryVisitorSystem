@@ -1,6 +1,6 @@
 # Public Library Visitor System
 
-A native Android application built with Kotlin and Firebase Authentication + Cloud Firestore. Library staff can sign in, register visitor details, and view visitor records.
+A Java Android application with a JavaScript-based interface and Firebase Authentication + Cloud Firestore. Library staff can sign in, register visitor details, and view visitor records.
 
 ## Features
 
