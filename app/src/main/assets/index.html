@@ -17,7 +17,7 @@
                 <p class="header-subtitle" id="engineStatusText">C Native Engine (NDK) - Operational</p>
             </div>
         </div>
-        <button class="btn btn-primary" id="btnHeaderCheckIn">+ Check In Visitor</button>
+        <button class="btn btn-primary" id="btnHeaderCheckIn">+ Register Visitor</button>
     </header>
 
     <!-- App Container -->
@@ -36,15 +36,15 @@
                 <!-- Stats Cards Grid -->
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <span class="stat-label">Inside Library</span>
+                        <span class="stat-label">Total Visitors</span>
                         <span class="stat-value text-blue" id="statVisitorsInside">0</span>
-                        <span class="stat-subtext" id="statVisitorsToday">0 checked in today</span>
+                        <span class="stat-subtext" id="statVisitorsToday">Registered in system</span>
                     </div>
 
                     <div class="stat-card">
                         <span class="stat-label">Active Loans</span>
                         <span class="stat-value text-teal" id="statActiveLoans">0</span>
-                        <span class="stat-subtext">Books currently out</span>
+                        <span class="stat-subtext">Books currently borrowed</span>
                     </div>
 
                     <div class="stat-card stat-alert">
@@ -64,7 +64,7 @@
                 <div class="section-block">
                     <h3>Quick Actions</h3>
                     <div class="action-buttons">
-                        <button class="btn btn-tonal" id="dashCheckInBtn">👤 Check In Visitor</button>
+                        <button class="btn btn-tonal" id="dashCheckInBtn">👤 Add Visitor</button>
                         <button class="btn btn-outline" id="dashAddBookBtn">📚 Add New Book</button>
                         <button class="btn btn-primary" id="dashIssueBookBtn">📖 Issue Book</button>
                     </div>
@@ -84,16 +84,15 @@
             <section id="viewVisitors" class="tab-view">
                 <div class="view-header">
                     <h2>Visitor Records</h2>
-                    <button class="btn btn-primary" id="btnNewVisitor">+ Check In</button>
+                    <button class="btn btn-primary" id="btnNewVisitor">+ Add Visitor</button>
                 </div>
 
                 <div class="search-bar-container">
-                    <input type="text" id="searchVisitors" class="input-search" placeholder="Search visitor by name, phone, email, purpose...">
+                    <input type="text" id="searchVisitors" class="input-search" placeholder="Search visitor by name, phone, email, address...">
                     <div class="filter-chips">
                         <button class="chip active" data-filter="all">All Visitors</button>
-                        <button class="chip" data-filter="inside">Currently Inside</button>
-                        <button class="chip" data-filter="out">Checked Out</button>
                         <button class="chip" data-filter="borrowing">Borrowing Books</button>
+                        <button class="chip" data-filter="no-borrowing">No Active Loans</button>
                     </div>
                 </div>
 
@@ -167,10 +166,10 @@
         </nav>
     </div>
 
-    <!-- MODAL 1: CHECK IN VISITOR -->
+    <!-- MODAL 1: ADD VISITOR -->
     <div class="modal-overlay" id="modalVisitor">
         <div class="modal-box">
-            <h3>Check In Visitor</h3>
+            <h3>Register New Visitor</h3>
             <form id="formVisitor">
                 <div class="form-group">
                     <label>Full Name</label>
@@ -192,13 +191,9 @@
                     <label>Residential Address</label>
                     <input type="text" id="vAddress" required placeholder="e.g. 12 Maple Street">
                 </div>
-                <div class="form-group">
-                    <label>Purpose of Visit</label>
-                    <input type="text" id="vPurpose" required placeholder="e.g. Reading, Book Borrowing, Research">
-                </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-text modal-close">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Check In Visitor</button>
+                    <button type="submit" class="btn btn-primary">Save Visitor</button>
                 </div>
             </form>
         </div>

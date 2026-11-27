@@ -11,11 +11,11 @@ const INITIAL_BOOKS = [
 ];
 
 const INITIAL_VISITORS = [
-    { id: "v1", name: "Aarav Patel", phone: "+1 555 010 1001", dob: "1998-04-12", email: "aarav.patel@example.com", address: "12 Maple Street", purpose: "Book Borrowing & Reading", checkedInAt: Date.now() - 7200000, checkedOutAt: 0, status: "Checked in" },
-    { id: "v2", name: "Emma Johnson", phone: "+1 555 010 1002", dob: "2001-09-23", email: "emma.johnson@example.com", address: "45 Oak Avenue", purpose: "Research", checkedInAt: Date.now() - 1036800000, checkedOutAt: 0, status: "Checked in" },
-    { id: "v3", name: "Liam Chen", phone: "+1 555 010 1003", dob: "1995-01-08", email: "liam.chen@example.com", address: "8 Cedar Lane", purpose: "Book Borrowing", checkedInAt: Date.now() - 14400000, checkedOutAt: 0, status: "Checked in" },
-    { id: "v4", name: "Mia Garcia", phone: "+1 555 010 1004", dob: "2003-06-17", email: "mia.garcia@example.com", address: "71 Pine Road", purpose: "Study Group", checkedInAt: Date.now() - 86400000, checkedOutAt: Date.now() - 3600000, status: "Checked out" },
-    { id: "v5", name: "Noah Williams", phone: "+1 555 010 1005", dob: "1989-12-30", email: "noah.williams@example.com", address: "29 Birch Court", purpose: "Computer Use", checkedInAt: Date.now() - 3600000, checkedOutAt: 0, status: "Checked in" }
+    { id: "v1", name: "Aarav Patel", phone: "+1 555 010 1001", dob: "1998-04-12", email: "aarav.patel@example.com", address: "12 Maple Street" },
+    { id: "v2", name: "Emma Johnson", phone: "+1 555 010 1002", dob: "2001-09-23", email: "emma.johnson@example.com", address: "45 Oak Avenue" },
+    { id: "v3", name: "Liam Chen", phone: "+1 555 010 1003", dob: "1995-01-08", email: "liam.chen@example.com", address: "8 Cedar Lane" },
+    { id: "v4", name: "Mia Garcia", phone: "+1 555 010 1004", dob: "2003-06-17", email: "mia.garcia@example.com", address: "71 Pine Road" },
+    { id: "v5", name: "Noah Williams", phone: "+1 555 010 1005", dob: "1989-12-30", email: "noah.williams@example.com", address: "29 Birch Court" }
 ];
 
 const NOW = Date.now();
@@ -88,9 +88,8 @@ function renderAll() {
 function renderDashboard() {
     document.getElementById("currentDateBadge").textContent = new Date().toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 
-    const visitorsInside = visitors.filter(v => v.status !== "Checked out").length;
-    document.getElementById("statVisitorsInside").textContent = visitorsInside;
-    document.getElementById("statVisitorsToday").textContent = `${visitors.length} total visitor(s)`;
+    document.getElementById("statVisitorsInside").textContent = visitors.length;
+    document.getElementById("statVisitorsToday").textContent = `Registered in system`;
 
     const activeLoans = borrowings.filter(b => b.status === "ACTIVE").length;
     document.getElementById("statActiveLoans").textContent = activeLoans;
@@ -143,12 +142,12 @@ function renderVisitors() {
     });
 
     let filtered = visitors.filter(v => {
-        const textMatch = [v.name, v.phone, v.email, v.address, v.purpose].some(f => (f || "").toLowerCase().includes(query));
+        const textMatch = [v.name, v.phone, v.email, v.address].some(f => (f || "").toLowerCase().includes(query));
         if (!textMatch) return false;
 
-        if (activeFilterChip === "inside") return v.status !== "Checked out";
-        if (activeFilterChip === "out") return v.status === "Checked out";
-        if (activeFilterChip === "borrowing") return (activeLoansMap[v.id] || 0) > 0;
+        const loansCount = activeLoansMap[v.id] || 0;
+        if (activeFilterChip === "borrowing") return loansCount > 0;
+        if (activeFilterChip === "no-borrowing") return loansCount === 0;
         return true;
     });
 
@@ -162,22 +161,18 @@ function renderVisitors() {
         emptyEl.style.display = "none";
         listEl.innerHTML = filtered.map(v => {
             const loansCount = activeLoansMap[v.id] || 0;
-            const statusClass = v.status === "Checked out" ? "badge-amber" : "badge-green";
-            const statusText = v.status === "Checked out" ? "Checked Out" : "Inside Library";
             return `
                 <div class="item-card">
                     <div class="card-top">
                         <span class="card-title">${v.name}</span>
-                        <span class="badge ${statusClass}">${statusText}</span>
+                        ${loansCount > 0 ? `<span class="badge badge-green">📖 ${loansCount} Book(s) Borrowed</span>` : `<span class="badge badge-blue">No Active Loans</span>`}
                     </div>
                     <div class="card-subtitle">Phone: ${v.phone} • Email: ${v.email}</div>
-                    <div class="card-details">Purpose: ${v.purpose || 'Reading'}</div>
-                    ${loansCount > 0 ? `<div class="badge badge-blue" style="margin-top: 6px; display: inline-block;">📖 ${loansCount} Book(s) Currently Borrowed</div>` : ''}
+                    <div class="card-details">DOB: ${v.dob || 'N/A'} • Address: ${v.address || 'N/A'}</div>
                     <div class="card-actions">
                         <button class="btn btn-danger btn-sm" onclick="deleteVisitor('${v.id}')">Delete</button>
-                        <button class="btn btn-outline btn-sm" onclick="openHistoryModal('${v.id}')">History</button>
-                        <button class="btn btn-tonal btn-sm" onclick="openIssueModalForVisitor('${v.id}')">📖 Issue Book</button>
-                        ${v.status !== "Checked out" ? `<button class="btn btn-primary btn-sm" onclick="checkOutVisitor('${v.id}')">Check Out</button>` : ''}
+                        <button class="btn btn-outline btn-sm" onclick="openHistoryModal('${v.id}')">Borrow History</button>
+                        <button class="btn btn-primary btn-sm" onclick="openIssueModalForVisitor('${v.id}')">📖 Issue Book</button>
                     </div>
                 </div>
             `;
@@ -288,15 +283,6 @@ function renderBorrowings() {
 }
 
 // Actions
-function checkOutVisitor(id) {
-    const v = visitors.find(x => x.id === id);
-    if (v) {
-        v.status = "Checked out";
-        v.checkedOutAt = Date.now();
-        renderAll();
-    }
-}
-
 function deleteVisitor(id) {
     if (confirm("Delete visitor record permanently?")) {
         visitors = visitors.filter(x => x.id !== id);
@@ -336,7 +322,7 @@ document.querySelectorAll(".modal-close").forEach(btn => {
     });
 });
 
-// Visitor Check-In Form Submit
+// Visitor Registration Form Submit
 document.getElementById("formVisitor").addEventListener("submit", (e) => {
     e.preventDefault();
     const newV = {
@@ -345,11 +331,7 @@ document.getElementById("formVisitor").addEventListener("submit", (e) => {
         phone: document.getElementById("vPhone").value.trim(),
         dob: document.getElementById("vDob").value,
         email: document.getElementById("vEmail").value.trim(),
-        address: document.getElementById("vAddress").value.trim(),
-        purpose: document.getElementById("vPurpose").value.trim(),
-        checkedInAt: Date.now(),
-        checkedOutAt: 0,
-        status: "Checked in"
+        address: document.getElementById("vAddress").value.trim()
     };
     visitors.unshift(newV);
     closeModal("modalVisitor");
